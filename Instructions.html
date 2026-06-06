@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+<link rel="shortcut icon" href="http://4-ch.net/favicon.ico">
+<link rel="icon" href="/favicon.ico">
+<style type="text/css" media="screen">
+body{color:#000;margin-left:5%;margin-right: 5%;margin-top: 2%;}
+h1{font-family: Arial, sans-serf;font-weight: normal;font-size: 20pt;color: #999;margin-left: -3%;}
+h1 b{border:1px dashed #ccc;padding:1pt;margin:2pt;font-weight:normal;display:inline;}
+.blue{color:#06c;}.purple{color:#60a;}.green{color:#093}.orange{color:#f90;}.red{color:#c03;}
+h1 i{font-size: 18pt;color: #ccc;}
+h1 span{padding: 0;display: inline;margin: 0;font-size: 10pt;color: #000;}
+h1 a,#control a{text-decoration: none;color: #000;}
+h1 a:hover,#control a:hover{text-decoration: underline;}
+h1 sub{font-family: Arial,sans-serif;font-weight: normal;color: #000;font-size: 10pt;margin-left: 8pt;}
+h2,h3,h4{font-family: Arial,sans-serif;font-weight: normal;font-size: 14pt;margin-bottom:0;}
+h3{font-size: 14pt;}h4{font-size:12pt;}
+pre{margin-left: 1em;border: 1px dashed #ccc;background-color: #eee;padding:4pt;}
+p{font-family: Verdana,sans-serif;font-size: 9pt;}
+li{list-style:square;font-family: Verdana,sans-serif;font-size: 9pt;}
+dl{font-family: Verdana,sans-serif;font-size: 9pt;}
+li a{text-decoration:none;}li a:hover{text-decoration:underline;}
+font{display:inline;font-size:8pt;font-family:Verdana,sans-serif;}
+#footer,#footer a{font-size: 8pt;border-top: 1px solid #ccc;color: #999;font-family: Arial,sans-serif;width: 50%;text-decoration: none;}
+#footer a:hover{text-decoration: underline;}
+#control {font-family: Arial,sans-serif;margin-top: -2%;margin-right:-5%;font-size: 9pt;padding: 4pt;}
+.layerbox-button {
+  display: inline-block;
+  box-sizing: border-box;
+  border: 1px solid black;
+  border-radius: 0;
+  height: 20px;
+  width: 20px;
+  padding: 0px;
+  margin: 0;
+  line-height: 0px;
+  font-family: sans-serif;
+  background-color: transparent;
+  background: linear-gradient(135deg, #09009f11, 60%, #0004);
+  box-shadow: inset 1px 1px 0 #fff9, inset -1px -1px 0 #59595990, 1px 1px 0 #b2b2b2;
+  cursor: pointer;}
+.x-button {
+  background: linear-gradient(135deg, #f005, 60%, #8005);
+  box-shadow: inset 1px 1px 0 #fff9, inset -1px -1px 0 #88455990, 1px 1px 0 #b2b2b2;}
+.layerbox-button:hover, .layerbox-button:focus, .layerbox-button:active {outline: 1px solid #12f80e66;
+  outline-offset: -2px;}
+.line-operation {
+  display: inline-block;
+  color: #c03;
+  background-color: #ffc;
+  border: 1px solid #c03;
+  padding-inline: 5px;
+  padding-block: 1px;
+  border-radius: 8px;}
+.keyboard-shortcut {
+  font-weight: bold;
+  font-size: 10pt;
+  font-family: monospace, monospace;
+  background-color: #eee;
+}
+.operation-title {
+  font-size: 10pt;
+  text-decoration: underline;
+  background-color: #eff;
+}
+dd p {margin-top: 4px;}
+article {max-width: 120ch;}
+.inline-dl {display: grid; grid-template-columns: max-content auto; gap: 3px;}
+.inline-dl dt {grid-column-start: 1; text-decoration: underline;}
+.inline-dl dd {grid-column-start: 2; margin-left: 5px;}
+ul li {margin-block: 12px;}
+</style>
+<title>4-ch : MittensEdit Guide</title>
+</head><body><div style="max-width: max-content;margin: auto;"><h1>channel<b class="blue">4</b><i>MittensEdit( ﾟ ヮﾟ) </i>
+<span>&raquo;&nbsp;<a href="./AAeditor.html">editor</a>
+&nbsp;&middot;&nbsp;<a href="https://github.com/killsushi/MittensEdit">github</a>
+&nbsp;&middot;&nbsp;<a href="SSZTHEDOWNLOADGOESHERE">download</a>
+</span></h1>
+<style type="text/css">
+h4{font-family: Arial,sans-serif;font-weight: normal;margin-bottom:0;font-size:12pt;}
+spoiler {background-color: black; color: black;}
+spoiler:hover {color: white;}
+pre {display: inline; margin-left: 0px; padding: 2px;}
+</style>
+<article>
+<p>[demonstration video goes here, coming soon]</p>
+<p>MittensEdit is a web-based Javascript AA editor based on OrinrinEditor and built atop the Codemirror library.</p>
+<p>The editor is currently still in early development, there are more features to come. Back up your AA regularly while working in case of bugs. Mostly tested in Firefox so far.</p>
+<p style="background-color:#ffc;"><strong class="red"><span style="font-size:12pt;">※</span> AA Editor requires that canvas and webfonts be enabled for correct dot width calculations.<br>Editor will not function correctly for characters outside the Saitamaar webfont. Do not use tab characters for spacing.</strong></p>
+<h3>●License</h3>
+<p>MittensEdit is distributed under the <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GNU General Public License Version 3</a>, like the OrinrinEditor it is based on.</p>
+<p>Source code may be found on <a href="https://github.com/killsushi/MittensEdit">Github</a> or downloaded <a href="SSZTHEDOWNLOADGOESHERE">here</a>.</p>
+<p>The editor requires Saitamaar to function. Saitamaar can be downloaded <a href="https://fonts.aahub.org/font/6">here</a> or <a href="https://github.com/asciiart-development/SaitamaarFont">here</a>. Information on installing Codemirror can be found <a href="https://codemirror.net/">here</a>.</p>
+<h3>A Note on Fonts:</h3>
+<p>AA, or S_JIS art, on 2ch was always made for display using MS PGothic's 16px bitmaps. Since modern displays are such that CSS pixels do not always match physical pixels, and some modern systems do not display bitmap fonts, viewing AA with MS PGothic as originally intended can be difficult. To work around this, MittensEdit uses the webfont Saitamaar. Saitamaar is based on the version of MS PGothic's 16px bitmaps that was available in the Windows XP era. This will display the overwhelming majority of AA correctly.</p>
+<p>The term "S_JIS art" is somewhat of a misnomer. The font is far more essential than the encoding and plenty of AA uses Unicode characters when available in MS PGothic's bitmaps.</p>
+<p>The only caveats are that certain changes made in MS PGothic's bitmaps around Windows 7 changed the visual appearance (but thankfully not the metrics) of certain glyphs. This means that Saitamaar displays early AA perfectly while certain, more recent AA will display not as intended. You are unlikely to notice this difference. Additionally, certain Unicode characters, which are rarely found in some AA, are omitted in Saitamaar. There are plans to produce an updated version of Saitamaar in the future that adds these missing glyphs.</p>
+<p>Some systems will see "color fringing" with Saitamaar due to subpixel positioning. An attempt to correct this will be made in the future.</p>
+<p>More information on AA fonts and their history may be found in the AA Bar's AA Info Megathread (COMING SOON)</p>
+<h3>A guide to AA spaces:</h3>
+<p style="margin:1em;padding:4pt;background-color:#eee;"><b>‣</b> <span class="blue" style="background-color: #efefef">Full-Width Space (FWS)</span> - An ideographic space, (U+3000). 11px wide. Does not collapse when repeated.<br>
+<b>‣</b> <span class="blue" style="background-color: #efefef">Half-Width Space (HWS)</span> - A normal ASCII space, (U+0020). 5px wide. Collapses when multiple are used in a row, or when one occurs at the start of a line.</p>
+<p>AA uses a mixture of FWS and HWS for padding empty areas. Due to multiple HWS in a row collapsing into one HWS when posted, and any amount of HWSs at the start of a line collapsing into nothing, MittensEdit marks these spaces red. If you attempt to post an AA with these invalid spaces on most boards, it will not display correctly and you will look like an idiot.</p>
+<p>Some AA uses a collection of non-SJIS "Unicode spaces" for achieving paddings that cannot be achieved with just HWSs and FWSs. MittensEdit and OrinrinEditor both introduce unicode spaces where necessary to achieve exact padding. The generation of unicode spaces can be toggled with the "Use Unicode Spaces" switch in the menu bar, or with <span class="keyboard-shortcut">Alt-U</span>. Many AA craftsmen attempt to minimize or entirely eliminate unicode spaces before posting their AA.</p>
+<p><span style="background-color:#ffc;"><strong class="red">Do not attempt to enter any sort of whitespace character (especially tab characters) into the editor which are not among those the editor generates naturally or among those which are available in the manual space insertion dropdown.</strong></span> The editor will not handle these other whitespace characters correctly and there is no guarantee that they will render identically in all possible environments your AA might be viewed. It is highly recommended that you enter HWSs as normal with your keyboard when padding and then use editor commands (Ctrl-LeftArrow, Ctrl-RightArrow) to acheive the desired correct spacing.</p>
+<p>All AA you will find in the wild will use nothing more than FWS, HWS, and occasionally the handful of Unicode spaces that OrinrinEditor and MittensEdit use, it is vanishingly unlikely that you will encounter AA with unusual whitespace that MittensEdit cannot handle.</p>
+<p>It is also recommended that you leave Unicode space generation <strong>enabled</strong> while carrying out most editor functions. This will ensure that every operation is carried out in as close to a pixel-perfect manner as is possible. Eliminating Unicode spaces should be carried out after large editing operations, but do keep in mind that, if you wish to eliminate Unicode spaces, you should probably plan ahead for it. Some editor operations will not function as expected when Unicode space generation is disabled.</p>
+<h3>Editor Operations:</h3>
+<h4>※Layerboxes</h4>
+<p>The main purpose of an AA editor.<br>You can insert a piece of AA as a semi-transparent "layerbox", move it to a target location, and paste it down. It will be composited into the document as if you were pasting images. The editor will attempt to preserve the original formatting as closely as possible.<br>If Unicode space generation is enabled, this should be pixel-perfect. If it is not, something about how fonts are displaying on your device or how your browser handles HTML canvas is misconfigured.<br>If Unicode space gen is disabled, the editor will attempt to keep the formatting as close as possible, possibly using periods for padding.</p>
+<p>A Layerbox has four buttons:</p>
+<p style="margin:1em;padding:4pt;background-color:#efefef;"><button class="layerbox-button">P</button> - Paste layerbox directly<br><br>
+<button class="layerbox-button">a</button> - "Adjustable paste", pastes the AA in a read-only preview. Use your arrow keys to adjust the position before finalizing with Enter. Identical to pasting behavior when Paste Mode is set to Block Pasting Enabled.<br><br>
+<button class="layerbox-button">e</button> - Edit Layerbox, allows you to edit the Layerbox's contents. Behaves as a normal text area, AA editor functions will not apply to it with the exception of 1px space adjustment with Ctrl-LeftArrow & Ctrl-RightArrow.<br><br>
+<button class="layerbox-button x-button">X</button> - Closes the Layerbox.</p>
+<p>By default, a Layerbox will be deleted after pasting. This cannot be undone. To not delete a layerbox after pasting (ie. for pasting the same AA multiple times), there is a "Delete Layerbox After Paste" setting in the Settings panel.</p>
+<p>When compositing, spaces "outside" a line in the Layerbox's contents will be treated as transparent, while those "inside" a line are treated as opaque. "Outside" spaces are those occurring before/after the first/last non-space character. If you want all interior spaces to be treated as transparent too, toggle the "Transparent Block Paste" setting in the settings panel.</p>
+<p>If you think the background on Layerboxes is too opaque to judge its exact target location, there is a "High Transparency Layerbox" setting. This will increase the displayed background transparency and change the Layerbox content's color to red with a faint cyan "halo" for better contrast.</p>
+<p>● Clicking on a Layerbox focuses it. A focused Layerbox can be moved with arrow keys, deleted with Escape, or pasted with Enter.</p>
+<p>● Creating a Layerbox adds it to the Layerboxes sidepanel. Every Layerbox entry in the sidepanel has a button to focus the associated Layerbox or delete the associated Layerbox. The list entries also display a tooltip of the Layerboxs' contents. Reorder list entries by drag-and-dropping them to reorder the order of Layerboxes in the document.</p>
+<p><span class="red">There is a chance that Layerboxes might desync with their intended document position in very large documents. This is untested.</span></p>
+<h4>※Paste Mode</h4>
+<p>There are three possible Paste Mode options. You can see the current one displayed in the status bar. Clicking the Paste Mode status bar entry or pressing <span class="keyboard-shortcut">Ctrl-Space</span> will toggle between them.</p>
+<dl>
+<dt><span class="operation-title">Block Pasting Disabled</span></dt>
+<dd><p>Pasting with Ctrl-V or right click will paste normally, as it would in any other text editor.</p></dd>
+<dt><span class="operation-title">Block Pasting Enabled</span></dt>
+<dd><p>Pasting with Ctrl-V or right click will directly composite the AA from your clipboard into the document. The document will temporarily enter a read only mode. You can adjust the precise location your clipboard contents will be composited into with Arrow Keys, cancel the operation with Escape, or confirm it with Enter.</p></dd>
+<dt><span class="operation-title">Block Pasting Layerbox</span></dt>
+<dd><p>Pasting with Ctrl-V or right click will insert your clipboard contents into the editor as a Layerbox.</p></dd>
+</dl>
+<h4>※Extraction:</h4>
+<dl>
+<dt><span class="operation-title">Extraction Copy</span> <span class="keyboard-shortcut">[Ctrl-Alt-C]</span></dt>
+<dd><p>The editor allows you to have multiple selections at a time. If you want to extract a section of AA out of a larger work without manually replicating the padding, select it and run Extraction Copy. This will extract the section of AA from the original, add extra padding so that the alignment is not disturbed, and place it on your clipboard.</p></dd>
+<dt><span class="operation-title">Extraction Cut</span> <span class="keyboard-shortcut">[Ctrl-Alt-X]</span></dt>
+<dd><p>The same as above, but also replaces your selected AA with blank padding of equivalent size.</p></dd>
+</dl>
+<h4>※Formatting:</h4>
+<p>All editor functions marked as a <span class="line-operation">line operation</span> will execute either for a set of selected lines or for every line in the document if the selection is empty (ie. there is only one or more active carets).</p>
+<p>A caret at the start of a line at the end of a selection is still considered as extending the selection to the line it is on. This may be changed in the future.</p>
+<dl>
+<dt><span class="operation-title">Add Guideline to Right Side</span> <span class="line-operation">line operation</span> <span class="keyboard-shortcut">[Ctrl-Alt-R]</span></dt>
+<dd><p>Inserts a vertical guideline of "|" characters on the right side of your AA. The resulting guideline is always perfectly aligned regardless of if you have Unicode space generation enabled or disabled. When Unicode space generation is disabled, period padding is used to align the guideline. Add a guideline before you start making edits on the left side of your AA. By looking at how the guideline shifts from being perfectly aligned, you can keep track of to what extent your edits have misaligned original formatting.</p>
+<p>When you're ready to remove the guideline, use the Remove Last Non-Whitespace Char to remove the guideline (if Unicode space gen is disabled, you might have to run it multiple times to remove period padding) and Remove Trailing Whitespace to remove the spacing it added.</p></dd>
+<dt><span class="operation-title">Add FWS (11px) at Start</span> <span class="line-operation">line operation</span> <span class="keyboard-shortcut">[Ctrl-I]</span></dt>
+<dd><p>Adds a single FWS character at the start of the line. Does not regenerate the initial run of spaces.</p></dd>
+<dt><span class="operation-title">Remove FWS (11px) at Start</span> <span class="line-operation">line operation</span> <span class="keyboard-shortcut">[Ctrl-U]</span></dt>
+<dd><p>Removes one FWS (11px) worth of space at the start of the line and regenerates the initial run of spaces.</p></dd>
+<dt><span class="operation-title">Remove Trailing Whitespace</span> <span class="line-operation">line operation</span> <span class="keyboard-shortcut">[Ctrl-G]</span></dt>
+<dd><p>Removes all FWS, HWS, and Unicode space characters located at the end of a line.</p></dd>
+<dt><span class="operation-title">Remove Last Non-Whitespace Char</span> <span class="line-operation">line operation</span> <span class="keyboard-shortcut">[Shift-Ctrl-G]</span></dt>
+<dd><p>Removes that last character that is not a FWS, HWS, or Unicode space.</p></dd>
+<dt><span class="operation-title">Mirror Horizontally by Line</span> <span class="line-operation">line operation</span></dt>
+<dd><p>Mirrors line(s) horizontally, replacing characters with horizontally mirrored equivalents when possible. May cause misalignment due to characters' mirrored matches not being the same width.</p></dd>
+<dt><span class="operation-title">Mirror Horizontally by Selection</span></dt>
+<dd><p>Mirrors each selection horizontally, independently from each other. Otherwise the same as Mirror Horizontally by Line.</p>
+<p>Useful with rectangular selection.</p></dd>
+<dt><span class="operation-title">Mirror Vertically</span> <span class="line-operation">line operation</span></dt>
+<dd><p>Mirrors line(s) vertically, replacing characters with vertically mirrored equivalents when possible. May cause misalignment due to characters' mirrored matches not being the same width.</p>
+<p>If you have selected a rectangular region, running this will only vertically mirror the selected area instead.</p></dd>
+<dt><span class="operation-title">Move to Right Margin</span> <span class="line-operation">line operation</span></dt>
+<dd><p>Shifts a line to the right margin. Will use period padding if Unicode space generation is disabled. Right margin can be changed in the Settings panel. Defaults to 790px.</p></dd>
+<dt><span class="operation-title">★Add 1px SP at Caret, Remove 1px SP at Caret</span> <span class="keyboard-shortcut">[Ctrl-RightArrow, Ctrl-LeftArrow]</span></dt>
+<dd><p>Increase or decrease the space where the caret is located by one pixel at a time. The main function for adjusting padding. <strong class="red">You will be using this often.</strong></p></dd>
+<dt><span class="operation-title">Add 1px SP at Start, Remove 1px SP at Start</span> <span class="line-operation">line operation</span> <span class="keyboard-shortcut">[Shift-Ctrl-RightArrow, Shift-Ctrl-LeftArrow]</span></dt>
+<dd><p>Increase or decrease the space at the start of each line by 1px.</p></dd>
+<dt><span class="operation-title">Narrow All 1px from Caret to Left</span></dt>
+<dd><p>Takes the distance of the caret from the left, finds the closest position to that distance on each line (if there is no exact match, goes to the closest position from the left), and removes 1px of space from each line at that position. If it is not possible to remove 1px space, a non-space character is removed and replaced with a run of spaces 1px less than the original character width.</p></dd>
+<dt><span class="operation-title">Expand All 1px from Caret to Right</span></dt>
+<dd><p>Takes the distance of the caret from the left, finds the closest position to that distance on each line (if there is no exact match, goes to the closest position from the left), and adds 1px of space to each line at that position. This and "Narrow All 1px from Caret to Left", in my opinion, are not very useful functions. I only implemented them because OrinrinEditor has them. You can simulate this exact behavior in more steps but with more precision using rectangle select, extraction cut, and layerbox compositing.</p></dd>
+</dl>
+<h4>※Auto Adjust:</h4>
+<dl>
+<dt><span class="operation-title">Set Reference Line Length</span> <span class="keyboard-shortcut">[Ctrl-Shift-E]</span></dt>
+<dd><p>Records the length of the line your caret is on. You can see the current Auto Adjust length in the status bar at the bottom of the editor.</p></dd>
+<dt><span class="operation-title">Attempt Misalignment Adjustment</span> <span class="keyboard-shortcut">[Ctrl-E]</span></dt>
+<dd><p>Will attempt to modify the length of the current run of spaces your caret is positioned in so that the total length of the line matches the Auto Adjust length set as reference. Will use period padding if Unicode space gen is disabled. Will fail and do nothing if there are no spaces at the caret, if it was unable to generate the necessary length, or if there is not enough space to carry out the adjustment. Can be run on multiple lines at once, but only if there is only one caret on each line. If there are multiple carets on one line, all but the first will be ignored.</p></dd>
+</dl>
+<h4>※Framedrawing:</h4>
+<p>MittensEdit contains functions for automatically inserting an AA frame. It comes with 20 styles of frames baked in, including speech bubbles. Please note that not all styles of frames will always generate perfectly, some manual adjustment may be required after generation.</p>
+<dl>
+<dt><span class="operation-title">Create Framebox</span></dt>
+<dd><p>Inserts a special layerbox for drawing frames into your document.</p></dd>
+<dt><span class="operation-title">Draw Frame Around AA</span> <span class="line-operation">line operation</span></dt>
+<dd><p>Draws a frame around the selected lines of AA, or if there's no selection, around the entire document.</p></dd>
+</dl>
+<p><span class="red">Framedrawing might not always properly work when Unicode space gen is disabled. This will be fixed in future updates.</span></p>
+<h4>※Brush Modes</h4>
+<p>When you open the "Brushes" panel in the sidebar, you enter a brush mode. These replace text in your AA based on mouse actions.<br>There are four brush modes. These can be switched using the dropdown menu in the brushes panel and are obnoxiously indicated with emoji.<br>The active brush text can be seen in the input field by the brush selection menu. This text can be set from the options in the sidebar or entered manually.</p>
+<dl>
+<dt>🖌️ <span class="operation-title">Overwrite Spaces</span></dt>
+<dd><p>Select a region of the document. When you release your mouse, the spaces in the selection will be replaced with the brush text. Orginal formatting is attempted to be preserved.</p></dd>
+<dt>🪣 <span class="operation-title">Overwrite All</span></dt>
+<dd><p>Select a region of the document. When you release your mouse, all text in the selection will be replaced with the brush text. Orginal lengths are attempted to be preserved.</p></dd>
+<dt>⚪ <span class="operation-title">Eraser</span></dt>
+<dd><p>Select a region of the document. When you release your mouse, all text in the selection will be replaced with empty padding space. Orginal lengths are attempted to be preserved.</p></dd>
+<dt>✏️ <span class="operation-title">Free Draw</span></dt>
+<dd><p>Selections are disabled. When you click down anywhere on the document, the active brush text is pasted to that location. Move your mouse while holding it down to draw.</p></dd>
+</dl>
+<h4>※Space Management:</h4>
+<p>These functions should be used carefully.</p>
+<dl>
+<dt><span class="operation-title">Manual Unicode Space Insertion Menu</span></dt>
+<dd><p>A dropdown menu for manually inserting acceptable Unicode spaces of a certain pixel width.</p></dd>
+<dt><span class="operation-title">Regenerate All Spacing</span> <span class="line-operation">line operation</span></dt>
+<dd><p>Regenerates every run of spaces in a line as if they had been freshly inserted by an editor command.</p></dd>
+<dt><span class="operation-title">Initial HWS to Unicode</span> <span class="line-operation">line operation</span></dt>
+<dd><p>Space generation will normally use a HWS for 5px spacing, which causes formatting problems when at the start of a line. Converts every HWS at the start of a line to a 5px Unicode space. Does not attempt to regenerate any other spacing.</p></dd>
+<dt><span class="operation-title">All Spaces to Pure SJIS with Period Padding</span> <span class="line-operation">line operation</span></dt>
+<dd><p>If a run of spaces contains a Unicode space or bad spacing, attempts to replace it with only HWSs, FWSs, and periods. Will not always generate visually optimal spacing for small padding and will cluster periods together. Take this as a starting point, always try to spread your period padding out to be visually unobtrusive.</p></dd>
+</dl>
+<h4>※Template Insertion</h4>
+<p>MittensEdit comes with a collection of built-in single-line and multi-line AA templates, consisting of commonly used characters and components.</p>
+<p>For multi-line templates, using the drop-down menu, you can choose what happens when you select an entry. They can be inserted as layerboxes, inserted directly, or copied to the clipboard without inserting.</p>
+<h4>※Trace Mode</h4>
+<p>Displays an image in the background for use as reference. Features like this are how all those anime girl AA are made. Should be self-explanatory. Reset button resets image position and color to defaults.</p>
+<p>Accessed by a panel in the sidebar</p>
+<h4>※Settings</h4>
+<p>Currently the settings panel contains only four entries.</p>
+<dl class="inline-dl">
+<dt>Right Margin (px)</dt><dd>- The value in pixels used when aligning to right margin. Defaults to 790px.</dd>
+<dt>Transparent Block Paste</dt><dd>- Treat all interior spaces in a Layerbox as transparent when compositing. Off by default.</dd>
+<dt>Delete Layerbox After Paste</dt><dd>- Decides if Layerboxes are deleted after pasting. On by default.</dd>
+<dt>High Transparency Layerbox</dt><dd>- Toggle alternative visual style for Layerboxes. Off by default.</dd>
+</dl>
+<!--<h4>※General:</h4>
+<p>Self explanatory, and the only reason these are in the menu bar is because I wanted to add more buttons to it.</p>
+<p>Undo</p>
+<p>Redo</p>
+<p>Select All</p>-->
+<h4>※View</h4>
+<dl>
+<dt><span class="operation-title">Preview AA</span> <span class="keyboard-shortcut">[Ctrl-B]</span></dt>
+<dd><p>Displays a preview of the current AA. Incorrect HWS will collapse as they would when posted. Any layerboxes you have open will display as if they'd been pasted down in their current locations.</p></dd>
+<dt><span class="operation-title">Instructions</span></dt>
+<dd><p>Opens this page you're looking at right now!</p></dd>
+<dt><span class="operation-title">Editor Info</span></dt>
+<dd><p>Shows a popup with information about the editor.</p></dd>
+</dl>
+<h4>※Unicode Space Generation <span class="keyboard-shortcut">[Alt-U]</span></h4>
+<p>The menu bar has a toggle button for whether or not editor functions will use Unicode spaces when necessary for perfect alignment.</p>
+<p>You can also toggle Unicode space generation with <span class="keyboard-shortcut">[Alt-U]</span>.</p>
+<p>See "A guide to AA spaces" above for details.</p>
+<h3>Keyboard Shortcuts:</h3>
+<p>Hold <span class="keyboard-shortcut">Alt</span> while selecting for rectangular selection. Hold <span class="keyboard-shortcut">Ctrl</span> while selecting for multi-selection.</p>
+<p><span class="keyboard-shortcut">[Alt-Arrowkeys]</span> <strong>:</strong> Split main caret from current selection and move independently.</p>
+<p><span class="keyboard-shortcut">[Shift-Alt-Arrowkeys]</span> <strong>:</strong> Extend selection at main caret.</p>
+<p><span class="keyboard-shortcut">[Ctrl-Alt-UpArrow]</span> <strong>:</strong> Add new caret above.</p>
+<p><span class="keyboard-shortcut">[Ctrl-Alt-DownArrow]</span> <strong>:</strong> Add new caret below.</p>
+<p><span class="keyboard-shortcut">[Escape]</span> <strong>:</strong> Simplify selection to main caret.</p>
+<p><span class="keyboard-shortcut">[Shift-Enter]</span> <strong>:</strong> Shift Carets Down (The next line is filled with spaces up to the caret position on the line you started.)</p>
+<p><span class="keyboard-shortcut">[Alt-L]</span> <strong>:</strong> Select Line</p>
+<p><span class="keyboard-shortcut">[Ctrl-C]</span> <strong>:</strong> Copy</p>
+<p><span class="keyboard-shortcut">[Ctrl-V]</span> <strong>:</strong> Paste</p>
+<p><span class="keyboard-shortcut">[Ctrl-X]</span> <strong>:</strong> Cut</p>
+<p><span class="keyboard-shortcut">[Ctrl-Z]</span> <strong>:</strong> Undo Operation</p>
+<p><span class="keyboard-shortcut">[Ctrl-Y, Shift-Ctrl-Z]</span> <strong>:</strong> Redo Operation</p>
+<p><span class="keyboard-shortcut">[Ctrl-Space]</span> <strong>:</strong> Toggle Paste Mode</p>
+<p><span class="keyboard-shortcut">[Ctrl-RightArrow]</span> <strong>:</strong> Add 1px SP at Caret</p>
+<p><span class="keyboard-shortcut">[Ctrl-LeftArrow]</span> <strong>:</strong> Remove 1px SP at Caret</p>
+<p><span class="keyboard-shortcut">[Shift-Ctrl-RightArrow]</span> <strong>:</strong> Add 1px SP at Start</p>
+<p><span class="keyboard-shortcut">[Shift-Ctrl-LeftArrow]</span> <strong>:</strong> Remove 1px SP at Start</p>
+<p><span class="keyboard-shortcut">[Ctrl-Alt-C]</span> <strong>:</strong> Extraction Copy</p>
+<p><span class="keyboard-shortcut">[Ctrl-Alt-X]</span> <strong>:</strong> Extraction Cut</p>
+<p><span class="keyboard-shortcut">[Alt-U]</span> <strong>:</strong> Toggle Unicode Space Generation</p>
+<p><span class="keyboard-shortcut">[Ctrl-Shift-E]</span> <strong>:</strong> Set Reference Line Length</p>
+<p><span class="keyboard-shortcut">[Ctrl-E]</span> <strong>:</strong> Attempt Misalignment Adjustment</p>
+<p><span class="keyboard-shortcut">[Ctrl-B]</span> <strong>:</strong> Preview AA (Toggle)</p>
+<p><span class="keyboard-shortcut">[Ctrl-Alt-R]</span> <strong>:</strong> Add Right Guideline</p>
+<p><span class="keyboard-shortcut">[Shift-Ctrl-G]</span> <strong>:</strong> Remove Last Non-Whitespace Char</p>
+<p><span class="keyboard-shortcut">[Ctrl-G]</span> <strong>:</strong> Remove Trailing Whitespace</p>
+<p><span class="keyboard-shortcut">[Ctrl-Alt-G]</span> <strong>:</strong> Fill Selected Area with Whitespace</p>
+<p><span class="keyboard-shortcut">[Ctrl-I]</span> <strong>:</strong> Add FWS (11px) at Start</p>
+<p><span class="keyboard-shortcut">[Ctrl-U]</span> <strong>:</strong> Remove FWS (11px) at Start</p>
+<h3>TIPS:</h3>
+<ul>
+<li>Take notes on how other AA craftsmen achieved the sorts of curves and angles that they did, and what characters they frequently used for it. If some combination of characters is very useful, post about it on AA Bar and we might add it to the templates menu.</li>
+<li>Leave Unicode space generation enabled while pasting layerboxes and performing 1px adjustment operations to avoid misalignment.</li>
+<li><p>When attempting to eliminate Unicode space use, disable Unicode space generation and then attempt adjusting your run of padding space back and forth by nudging it with <span class="keyboard-shortcut">Ctrl-LeftArrow</span> & <span class="keyboard-shortcut">Ctrl-RightArrow</span>. This will sometimes get you the right width right away!</p><p>This is because, when Unicode space gen is enabled, a run of spaces will generate with only S_JIS spaces <em>only when</em> the number of HWS needed is less than the number of FWS. If reaching that pixel width with only FWS and HWS while that condition is met is not possible, it will add Unicode spaces to fill the gap. This is so that it will never generate a HWS at the start of a run of spaces (unless there is only one HWS), but sometimes that extra HWS at the start of a run of padding is what's needed to achieve a specific width. Toggle Unicode generation frequently while working.</p></li>
+<li>Be careful when running the Regenerate All Spacing function, it can regenerate runs of spaces that are already okay and add Unicode spaces to them! It's there to assist with cleanup, not handle all spacing for you.</li>
+<li>Add periods (.) to your padding space to reach widths that normal use of FWS and HWS cannot. The editor has a built-in operation for this, "All Spaces to Pure SJIS with Period Padding," but it does not always generate visually optimal spacing, may add unneeded periods, and will cluster periods together. Use it as a starting point before making manual edits. Try to space out the periods you use to make them less visually intrusive! Look at the work of past AA craftsmen to see how they do this.</li>
+</ul>
+<p>Enjoy using MittensEdit!</p>
+<h3>Planned Features:</h3>
+<ul>
+<li>OrinrinEditor allows you to individually mark runs of spaces in a Layerbox as being transparent or not, while MittensEdit currently only allows you to toggle between all being transparent or no internal spaces being transparent. Rework Layerboxes to match OrinrinEditor's masking behavior.</li>
+<li>Vertical space writing and "AA text" writing, like in OrinrinEditor.</li>
+<li>Export as image.</li>
+<li>Vertical ruler feature.</li>
+<li>Keyboard shortcut for accessing single-line insertion menu, for convenience of inserting common characters / character combinations.</li>
+<li>Tweaks to the Saitamaar webfont. Adding glyphs, symmetrical smoothing for better scaling, experimenting with hinting to see if subpixel positioning issues on some platforms can be eliminated.</li>
+<li>Tweaks to the UI for better scaling. I want to zoom in without the sidebar consuming the screen, right now it's a set width in CSS pixels.</li>
+<li>Code cleanup, bug fixes, commenting, and performance improvements.</li>
+<li>Support for MLT and AST files.</li>
+<li>Support for alternate UI styles.</li>
+<li>A "draft board" like in OrinrinEditor for temporary storage of AA. Like a clipboard extension.</li>
+<li>Split screen for preview and tracing, like in （´д｀）Edit</li>
+<li>Search feature, maybe.</li>
+<li>Figure out if the keyboard shortcuts work on Macs.</li>
+<li>Mobile support is intentionally never happening.</li>
+</ul>
+<h3>Release History:</h3>
+<p>(2026/5/28) Editor v0.1 released!</p>
+<br>
+</article></div></body></html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="AAeditor.css">
+  <title>MittensEdit : AA Editor for the Web</title>
+</head>
+
+<!-- MittensEdit
+Copyright (C) 2026 killsushi!Basque9Dpk
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with this program.
+If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<body>
+  <div id="mainContainer">
+    <div id="menuBar"></div>
+    <div id="editorContainer">
+      <div id="inputContainer" class="">
+      <div id="previewContainer" class=""></div>
+      </div>
+    </div>
+    <div id="statusBox"><div class="statusBoxInner"><!--
+      --><button class="statuswrapper pastemodestatuswrapper" title="Switch Paste Mode (Ctrl-Space)" tabindex="0"><span class="statuslabel pastemodelabel">Paste Mode:</span> <span id="pasteModeStatus">Block Pasting Disabled</span></button><!--
+      --><div class="statuswrapper"><span class="statuslabel positionlabel">Right Margin:</span> <span id="rightMarginStatus">790[dot]</span></div><!--
+      --><div class="statuswrapper" title="Target for Auto Adjust (Ctrl-)" ><span class="statuslabel positionlabel">Auto Adjust:</span> <span id="autoAdjustWidth">790[dot]</span></div><!--
+      --><div class="statuswrapper" title="Generate Unicode Spaces? (Ctrl-U)" ><span class="statuslabel positionlabel">Unicode Spaces:</span> <span id="unicodeModeStatus">On</span></div><!--
+      --><div class="statuswrapper"><span class="statuslabel positionlabel">Mouse:</span> <span id="mouseposition">0[dot] 0[line]</span></div><!--
+      --><div class="statuswrapper"><span class="statuslabel positionlabel">Caret:</span> <span id="caretposition">0[dot] 0[char] 0[line]</span></div><!--
+    --></div></div>
+    <div id="miscSidebar">
+      <input type="radio" name="metaTabs" id="tab1" tabindex="0" aria-controls="layerMenu" checked><!--
+      --><label for="tab1" title="Layerboxes" class="tabToggle"><img src="res/icons/LayerBox.png" draggable="false"></label><!--
+      
+      --><input type="radio" name="metaTabs" id="tab2" tabindex="0" aria-controls="settings"><!--
+      --><label for="tab2" title="Settings" class="tabToggle"><img src="res/icons/Settings.png" draggable="false"></label>
+      
+      <div class="tabContainer">
+        <section id="layerMenu" class="tabPanel">
+          <div class="layerMenu">
+            <header>◆Active Layerboxes◆</header>
+            <div id="layerList"></div>
+          </div>
+        </section>
+        <section id="settingsMenu" class="tabPanel">
+          <div>
+            <header>◆Settings◆</header>
+            <fieldset>
+              <div class="form-group">
+                <label for="setRightMargin" title="Set Right Margin">Right Margin (px): </label>
+                <input id="setRightMargin" type="number" min="20" max="2000" step="1" value="790" autocomplete="off">
+              </div>
+              <div class="form-group">
+                <label for="transparentPasteToggle" title="Toggle Transparent Block Paste">Transparent Block Paste: </label>
+                <input id="transparentPasteToggle" type="checkbox">
+              </div>
+              <div class="form-group">
+                <label for="delLayerboxOnPasteToggle" title="Toggle Delete Layerbox After Paste">Delete Layerbox After Paste: </label>
+                <input id="delLayerboxOnPasteToggle" type="checkbox" checked autocomplete="off">
+              </div>
+              <div class="form-group">
+                <label for="highTransparencyLayerToggle" title="Toggle High Transparency Layerbox">High Transparency Layerbox: </label>
+                <input id="highTransparencyLayerToggle" type="checkbox">
+              </div>
+            </fieldset>
+          </div>
+        </section>
+      </div>
+    </div>
+    <div id="brushSidebar">      
+      <input type="radio" name="editTabs" id="charMenuTab" tabindex="0" aria-controls="charMenu" checked><!--
+      --><label for="charMenuTab" title="Character Insertion" class="tabToggle"><img src="res/icons/insertionMenu.png" draggable="false"></label><!--
+      
+      --><input type="radio" name="editTabs" id="brushesTab" value="brushes" tabindex="0" aria-controls="brushes"><!--
+      --><label for="brushesTab" title="Brushes" class="tabToggle"><img src="res/icons/brushMenu.png" draggable="false"></label><!--
+      
+      --><input type="radio" name="editTabs" id="templatesTab" tabindex="0" aria-controls="templates"><!--
+      --><label for="templatesTab" title="Templates" class="tabToggle"><img src="res/icons/TemplateMenu.png" draggable="false"></label><!--
+      
+      --><input type="radio" name="editTabs" id="traceModeTab" tabindex="0" aria-controls="trace"><!--
+      --><label for="traceModeTab" title="Trace Mode" class="tabToggle"><img src="res/icons/TraceMode.png" draggable="false"></label>
+      
+      <div class="tabContainer">
+        <section id="charMenu" class="tabPanel">
+          <div>
+            <div id="charPagePicker"></div>
+            <div id="charMenuPages"></div>
+          </div>
+        </section>
+        <section id="brushes" class="tabPanel">
+          <div>
+            <fieldset>
+              <select id="brushFunctionSelector">
+                <option value="overwriteSpaces" selected>🖌️</option>
+                <option value="overwriteAll" >🪣</option>
+                <option value="eraser" >⚪</option>
+                <option value="freeDraw" >✏️</option>
+              </select>
+              <input id="brushField" type="text" value=".">
+              <!---<input type="checkbox">--->
+            </fieldset>
+            <div>
+              <div id="brushPagePicker"></div>
+              <div id="brushMenuPages"></div>
+            </div>
+          </div>
+        </section>
+        <section id="templates" class="tabPanel">
+          <div>
+            <select id="templateBehaviorSelector" autocomplete="off">
+              <option value="insertLayerbox" selected>Insert as Layerbox</option>
+              <option value="insertDirectly">Insert Directly</option>
+              <option value="insertRectangle">Rectangle Insert</option>
+              <option value="copy">Copy to Clipboard</option>
+            </select>
+            <div>
+              <div id="templatePagePicker"></div>
+              <div id="templateMenuPages"></div>
+            </div>
+          </div>
+        </section>
+        <section id="traceModeMenu" class="tabPanel">
+          <div>
+            <header>◆Trace Mode◆</header>
+            <div>
+            <fieldset>
+              <div class="form-group">
+                <input type="file" id="tracemode-imageinput" accept="image/*">
+              </div>
+              <div class="form-group">
+                <label for="tracemode-x-pos">x position</label>
+                <input class="inputNumber" type="number" id="tracemode-x-pos-number" min="-1000" max="1000" value="0" autocomplete="off" />
+                <input type="range" id="tracemode-x-pos" name="x-pos" min="-1000" max="1000" value="0" step="1" autocomplete="off" />
+              </div>
+              <div class="form-group">
+                <label for="tracemode-y-pos">y position</label>
+                <input class="inputNumber" type="number" id="tracemode-y-pos-number" min="-1000" max="1000" value="0" autocomplete="off" />
+                <input type="range" id="tracemode-y-pos" name="y-pos" min="-1000" max="1000" value="0" step="1" autocomplete="off" />
+              </div>
+              <div class="form-group">
+                <label for="tracemode-scale">scale</label>
+                <input class="inputNumber" type="number" id="tracemode-scale-number" min="50" max="300" value="100" autocomplete="off" />
+                <input type="range" id="tracemode-scale" name="scale" min="50" max="300" value="100" step="1" autocomplete="off" />
+              </div>
+              <div class="form-group">
+                <label for="tracemode-rotation">rotation</label>
+                <input class="inputNumber" type="number" id="tracemode-rotation-number" min="0" max="360" value="0" autocomplete="off" />
+                <input type="range" id="tracemode-rotation" name="rotation" min="0" max="360" value="0" step="1" autocomplete="off" />
+              </div>
+              <div class="form-group">
+                <label for="tracemode-brightness">brightness</label>
+                <input class="inputNumber" type="number" id="tracemode-brightness-number" min="0" max="300" value="100" autocomplete="off" />
+                <input type="range" id="tracemode-brightness" name="brightness" min="0" max="300" value="100" step="1" autocomplete="off" />
+              </div>
+              <div class="form-group">
+                <label for="tracemode-contrast">contrast</label>
+                <input class="inputNumber" type="number" id="tracemode-contrast-number" min="0" max="300" value="100" autocomplete="off" />
+                <input type="range" id="tracemode-contrast" name="contrast" min="0" max="300" value="100" step="1" autocomplete="off" />
+              </div>
+              <div class="form-group">
+                <label for="tracemode-saturation">saturation</label>
+                <input class="inputNumber" type="number" id="tracemode-saturation-number" min="0" max="300" value="100" autocomplete="off" />
+                <input type="range" id="tracemode-saturation" name="saturation" min="0" max="300" value="100" step="1" autocomplete="off" />
+              </div>
+              <div class="form-group">
+                <label for="tracemode-hue">hue</label>
+                <input class="inputNumber" type="number" id="tracemode-hue-number" min="0" max="360" value="0" autocomplete="off" />
+                <input type="range" id="tracemode-hue" name="hue" min="0" max="360" value="0" step="1" autocomplete="off" />
+              </div>
+              <div class="form-group">
+                <label for="tracemode-opacity">opacity</label>
+                <input class="inputNumber" type="number" id="tracemode-opacity-number" min="0" max="100" value="100" autocomplete="off" />
+                <input type="range" id="tracemode-opacity" name="opacity" min="0" max="100" value="100" step="1" autocomplete="off" />
+              </div>
+              <div class="form-group">
+                <input type="checkbox" id="tracemode-mirror-x" name="mirror-x" autocomplete="off"><label for="tracemode-mirror-x">mirror-x</label><br>
+              </div>
+              <div class="form-group">
+                <input type="checkbox" id="tracemode-mirror-y" name="mirror-y" autocomplete="off"><label for="tracemode-mirror-y">mirror-y</label><br>
+              </div>
+              <div class="form-group">
+                <input type="color" id="tracemode-text-color" name="text-color" value="#ff0000" autocomplete="off" /><label for="tracemode-text-color">Text color</label>
+              </div>
+              <div class="form-group">
+                <button id="tracemode-toggle" title="Toggle image background for tracing" >On</button><button id="tracemode-reset" title="Reset image position and color" >Reset</button>
+              </div>
+            </fieldset>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <script src="dist/codemirror.bundle.js"></script>
+    <script src="dist/global.js"></script>
+    <script src="dist/aafunctions.js"></script>
+    <script src="dist/blockpaste.js"></script>
+    <script src="dist/editorutils.js"></script>
+    <script src="dist/editorcommands.js"></script>
+    <script src="dist/lineoperations.js"></script>
+    <script src="dist/mirroring.js"></script>
+    <script src="dist/framedrawing.js"></script>
+    <script src="dist/layerboxes.js"></script>
+    <script src="dist/rectangleselect.js"></script>
+    <script src="dist/mittensedit.js"></script>
+    <script src="dist/controls.js"></script>
+    <script src="dist/tracemode.js"></script>
+  </div>
+  <div id="modalOverlay"><div id="infoBox"><div><button class="overlay-close">X</button>MittensEdit is a free AA / S_JIS Art editor developed by killsushi!Basque9Dpk for the Channel4 (<a href="https://4-ch.net/" target="_blank">4-ch.net</a>) community.<br>Licensed under <a href="https://www.gnu.org/licenses/gpl-3.0.en.html" target="_blank">GPLv3</a>. Source code may be found <a href="https://github.com/killsushi/MittensEdit" target="_blank">here</a>.<br><br><span class="warning">※ AA Editor requires that canvas and webfonts be enabled for correct dot width calculations.<br>Editor will not function for characters outside the Saitamaar webfont. Do not use tab characters for spacing.</span></div></div></div>
+</body>
+
+</html>

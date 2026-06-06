@@ -1,0 +1,1228 @@
+/*
+MittensEdit
+Copyright (C) 2026 killsushi!Basque9Dpk
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with this program.
+If not, see <http://www.gnu.org/licenses/>.
+*/
+
+@font-face {
+  font-family: "Saitamaar";
+  src: url("./font/Saitamaar.woff2") format("woff2"),
+    url("./font/Saitamaar.woff") format("woff"),
+    url("./font/Saitamaar.ttf") format("ttf");
+  font-display: swap;
+}
+
+html {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Experimental font stuff */
+/* https://github.com/DavidBuchanan314/bitmap-font-css */
+/* @media
+  (resolution: 1dppx),
+  (resolution: 2dppx),
+  (resolution: 3dppx),
+  (resolution: 4dppx)
+{
+  body {
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: grayscale;
+    font-smooth: never;
+    filter: contrast(100.00001%);
+  }
+}*/
+/* Experimental font stuff */
+
+
+
+/*body {
+  min-height: 100vh;
+}*/
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/** {
+  outline: 1px solid #f00 !important;
+}*/
+
+body {
+  font-family: "MS PGothic";
+  font-size: 16px;
+  line-height: 18px;
+  margin: 0px;
+  background-color: #C5AD99;
+  background-image: url("res/ba.gif");
+  overflow: hidden;
+  text-size-adjust: none !important;
+  -webkit-text-size-adjust: none !important;
+}
+
+*:focus {
+  /*outline: 1px solid #12f80eaa;*/
+  outline: 1px solid #12f80e66;
+  outline-offset: -2px;
+}
+
+#mainContainer {
+  position: fixed; /* Fixed a Chrome bug in an older version, might not be needed now. */
+  display: grid;
+  grid-template-columns: auto min-content;
+  /*grid-template-rows: auto 1fr 1fr min-content;*/
+  grid-template-rows: min-content 1fr 3fr min-content;
+  gap: 0;
+  grid-gap: 0;
+  grid-template-areas:
+    "menubar menubar"
+    "write misc"
+    "write brushes"
+    "status status";
+  min-height: 100vh;
+  max-height: 100vh;
+  min-width: 100vw; /* Needed for position:fixed hack to work for some reason. */
+  max-width: 100vw; /* Needed for position:fixed hack to work for some reason. */
+  /*padding: 8px;*/
+  padding: 2px;
+  margin: 0px;
+  /*padding-bottom: 3px; /* Maybe? */
+  /*border: 1px outset #b2b2b2;
+  background-color: #EFEFEF;*/
+  overflow: hidden;
+}
+#editorContainer {
+  grid-area: write;
+  display: grid;
+  /*padding: 4px;*/
+  /*gap: 4px;
+  grid-gap: 4px;
+  /*grid-template-rows: auto min-content;*/
+  /*border: 1px outset #b2b2b2;*/
+  min-width: 0;
+  min-height: 0;
+  background-color: #EFEFEF;
+  /*border-top: 1px outset #b2b2b2;*/
+  border-left: 1px outset #b2b2b2;
+  padding: 2px;
+  padding-left: 7px;
+  padding-right: 8px;
+  
+  grid-template-columns: auto min-content;
+  grid-template-rows: auto min-content;
+  grid-template-areas:
+    "editor scrollbar-y"
+    "scrollbar-x scroll-corner";
+  
+  margin-bottom: -1px;
+  margin-top: -1px;
+  margin-right: -2px;
+  padding-bottom: 0;
+  padding-top: 0;
+}
+#menuBar {
+  grid-area: menubar;
+  min-width: 0;
+  min-height: 36px;
+  box-sizing: border-box;
+  border: 1px inset #b2b2b2;
+  border: 1px outset #b2b2b2;
+  background-color: #EFEFEF;
+  padding: 4px;
+  
+  font-size: 12px;
+  line-height: 14px;
+  z-index: -1;
+}
+#menuBar .menuBarInner {
+  background-color: #dedede;
+  border: 1px inset #b2b2b2;
+  padding: 1px;
+  line-height: 0;
+}
+#menuBar .menugroup {
+  display: inline-block;
+  border: 1px outset #b2b2b2;
+  background-color: #efefef;
+  line-height: 0;
+  padding: 1px;
+  margin-right: 5px;
+  vertical-align: top;
+}
+#menuBar .menugroup:last-of-type {
+  margin-right: 0;
+}
+#menuBar .menubarbutton {
+  box-sizing: border-box;
+  border: 1px solid transparent;
+  background-color: #efefef;
+  padding: 1px;
+  display: inline-block;
+  margin-right: 1px;
+  /*width: 280px;*/
+  padding: 0;
+  height: 22px;
+  width: 22px;
+  vertical-align: top;
+  line-height: 0;
+}
+#menuBar .menubarbutton:focus {
+  outline: 1px solid #12f80eaa;
+  outline-offset: -2px;
+}
+#menuBar .menubarbutton:hover, .unicodetogglecontainer label:hover {
+  border: 1px outset #ddd;
+}
+#menuBar .menubarbutton:active, .unicodetogglecontainer label:active {
+  border: 1px outset #ddd;
+  background-color: #cdffc1;
+}
+#menuBar .menubarbutton img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+  image-rendering: crisp-edges;
+}
+#menuBar .menubarbutton:last-of-type {
+  margin-right: 0;
+}
+#menuBar #spaceMenu {
+  width: 34px;
+  background: url("res/icons/UniSpace.png") no-repeat;
+}
+#spaceMenu option {
+  font-family: "MS PGothic";
+  font-size: 12px;
+  line-height: 14px;
+}
+#menuBar #frameMenu {
+  width: 16px;
+}
+#frameMenu option {
+  font-family: "MS PGothic";
+  font-size: 12px;
+  line-height: 14px;
+}
+.unicodetogglecontainer {
+  box-sizing: border-box;
+  background-color: #efefef;
+  padding: 1px;
+  display: inline-block;
+  padding: 0;
+  height: 22px;
+  width: 22px;
+  vertical-align: top;
+  line-height: 0;
+  position: relative;
+}
+#unicodeToggle {
+  appearance: none;
+  opacity: 0;
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+.unicodetogglecontainer label {
+  border: 1px solid transparent;
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.unicodetogglecontainer label img {
+  user-select: none;
+  display: block;
+  image-rendering: crisp-edges;
+}
+#unicodeToggle:checked + label {
+  border: 1px solid #99d1ff;
+  background-color: #99d1ff44;
+} 
+
+#miscSidebar {
+  grid-area: misc;
+  min-width: 0;
+  min-height: 0;
+  /*border: 1px solid black;
+  border: 1px outset #b2b2b2;
+  background-color: #EFEFEF;*/
+}
+#brushSidebar {
+  grid-area: brushes;
+  min-width: 0;
+  min-height: 0;
+  /*border: 1px solid black;
+  border: 1px outset #b2b2b2;
+  background-color: #EFEFEF;*/
+  margin-bottom: -1px;
+}
+
+#statusBox {
+  grid-area: status;
+  min-width: 0;
+  min-height: 0;
+  box-sizing: border-box;
+  border: 1px inset #b2b2b2;
+  border: 1px outset #b2b2b2;
+  background-color: #EFEFEF;
+  /*background-color: #cccccc;*/
+  padding: 4px;
+  
+  font-size: 12px;
+  line-height: 14px;
+  /*padding: 2px;*/
+  /*padding: 3px;*/
+  z-index: -1;
+}
+#statusBox .statusBoxInner {
+  background-color: #dedede;
+  border: 1px inset #b2b2b2;
+  padding: 2px;
+  
+  /*padding: 1px;*/
+}
+#statusBox > * {
+  /*margin: 5px;*/
+}
+#statusBox .statuswrapper {
+  border: 1px outset #b2b2b2;
+  background-color: #efefef;
+  padding: 1px;
+  display: inline-block;
+  margin-right: 5px;
+  /*width: 280px;*/
+  padding-right: 10px;
+  vertical-align: bottom;
+}
+#statusBox .statuslabel {
+  display: inline-block;
+  color: white;
+  font-weight: bold;
+  padding-left: 2px;
+  padding-right: 1px;
+  /*font-family: "Saitamaar";
+  font-weight: normal;
+  text-shadow: 0.95px 0, 0.5px 0;
+  letter-spacing: 1px;*/
+}
+#statusBox .pastemodelabel {
+  background-color: #000033;
+}
+#statusBox .positionlabel {
+  background-color: #005500;
+}
+
+#pasteModeStatus {
+  color: red;
+}
+#statusBox .pastemodestatuswrapper {
+  cursor: pointer;
+  font-family: "MS PGothic";
+  font-size: 12px;
+  line-height: 14px;
+}
+#statusBox .pastemodestatuswrapper:focus {
+  outline: 1px solid #12f80e66;
+  outline-offset: -2px;
+}
+
+/*.marginsetterwrapper {
+}
+#rightMarginSetter {
+  -webkit-appearance: textfield;
+  -moz-appearance: textfield;
+  appearance: textfield;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-family: "MS PGothic";
+  font-size: 12px;
+  height: 14px;
+  vertical-align: bottom;
+  text-align: end;
+}*/
+
+
+
+
+#miscSidebar input[type="radio"],
+#brushSidebar input[type="radio"] {
+  position: absolute;
+  height: 0;
+  width: 0;
+  opacity: 0;
+}
+
+.tabContainer .tabPanel {
+  display: none;
+}
+
+#brushSidebar > input:nth-of-type(1):checked ~ .tabContainer > .tabPanel:nth-child(1),
+#brushSidebar > input:nth-of-type(2):checked ~ .tabContainer > .tabPanel:nth-child(2),
+#brushSidebar > input:nth-of-type(3):checked ~ .tabContainer > .tabPanel:nth-child(3),
+#brushSidebar > input:nth-of-type(4):checked ~ .tabContainer > .tabPanel:nth-child(4),
+#miscSidebar > input:nth-of-type(1):checked ~ .tabContainer > .tabPanel:nth-child(1),
+#miscSidebar > input:nth-of-type(2):checked ~ .tabContainer > .tabPanel:nth-child(2),
+#miscSidebar > input:nth-of-type(3):checked ~ .tabContainer > .tabPanel:nth-child(3) {
+  display: block;
+}
+
+.tabContainer {
+  width: 200px;
+  height: calc(100% - 22px);
+  max-height: calc(100% - 20px);
+  background-color: #EFEFEF;
+  border: 1px outset #b2b2b2;
+  padding: 4px;
+  box-shadow: inset 1px 0 white;
+}
+
+.tabPanel {
+  width: 100%;
+  height: 100%;
+  border: 1px inset #b2b2b2;
+}
+
+.tabToggle {
+  display: inline-block;
+  width: 26px;
+  height: 22px;
+  /*margin-top: 2px;*/
+  text-align: center;
+  border: 1px outset #b2b2b2;
+  border-bottom: 0;
+  background-color: #dedede;
+  margin-left: 2px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  vertical-align: bottom;
+  box-shadow: 1px 0 0 #696969, inset -1px 0 #ccc, inset 1px 1px #efefef;
+}
+
+.tabToggle img {
+  vertical-align: bottom;
+  padding-top: 3px;
+  user-select: none;
+}
+
+input:checked  + .tabToggle {
+  width: 30px;
+  height: 25px;
+  margin-left: 0px;
+  margin-right: -2px;
+  margin-top: -2px;
+  margin-bottom: -1px;
+  border-bottom: 0;
+  background-color: #efefef;
+  box-shadow: 1px 0 0 #696969, inset -1px 0 #dedede, inset 1px 1px white;
+}
+
+.layerMenu {
+  display: grid;
+  grid-template-rows: min-content minmax(0, 1fr);
+  min-height: 100%;
+  max-height: 100%;
+  max-width: 100%;
+  border: 3px outset white;
+  position: relative; /* For tooltip display */
+}
+
+.layerMenu > header, #settingsMenu header {
+  text-align: center;
+  color: white;
+  font-weight: bold;
+  background-color: #000033;
+  margin: 2px;
+  font-size: 12px;
+}
+
+#layerList {
+  overflow-y: scroll;
+  min-height: 0;
+  background-color: #dedede;
+}
+
+#layerList:empty::before {
+  content: "No active layerboxes.";
+}
+
+.layerbox-control {
+  /*display: inline-block;
+  /*text-align: center;*/
+  /*height: 22px;*/
+  border: 1px outset #b2b2b2;
+  background-color: #efefef;
+  padding: 1px;
+  margin: 2px;
+  margin-right: 20px;
+  font-size: 12px;
+  line-height: 16px;
+  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.layerbox-control:hover,
+.layerbox-control:focus,
+#settingsMenu .form-group:hover,
+#settingsMenu .form-group:focus,
+#settingsMenu .form-group input:hover,
+#settingsMenu .form-group input:focus {
+  outline: 1px solid #12f80e66;
+  outline-offset: -2px;
+}
+
+.layerbox-control .layer-label {
+  display: inline-block;
+  color: white;
+  font-weight: bold;
+  padding-left: 2px;
+  padding-right: 2px;
+  background-color: #005500;
+  /*margin-right: 10px;*/
+}
+
+.layerbox-control button {
+  vertical-align: bottom;
+  box-sizing: border-box;
+  border: 1px solid black;
+  border-radius: 0;
+  height: 16px;
+  padding: 1px;
+  padding-left: 2px;
+  padding-right: 2px;
+  margin: 0px;
+  /*margin-right: 10px;*/
+  font-family: "MS PGothic";
+  font-size: 12px;
+  line-height: 0px;
+  
+  background-color: transparent;
+  background: linear-gradient(135deg, #09009f11, 60%, #0004);
+  box-shadow: inset 1px 1px 0 #fff9, inset -1px -1px 0 #59595990;
+  
+  background: linear-gradient(135deg, #09009f22, 60%, #0006);
+  box-shadow: inset 1px 1px 0 #fffc, inset -1px -1px 0 #884559cc;
+  
+  cursor: pointer;
+}
+
+
+.layerbox-control .x-button {
+  /*float: right;*/
+  width: 16px;
+  margin-right: 0;
+  background-color: #ff000055;
+  padding: 0px;
+  
+  background: linear-gradient(135deg, #f005, 60%, #8005);
+	box-shadow: inset 1px 1px 0 #fff9, inset -1px -1px 0 #88455990;
+  
+  background: linear-gradient(135deg, #e88, 60%, #8d2b2b);
+  box-shadow: inset 1px 1px 0 #fffb, inset -1px -1px 0 #884559bb;
+  font-family: sans-serif;
+  
+  background: linear-gradient(135deg, #f78d8d, 60%, #955);
+  box-shadow: inset 1px 1px 0 #fffb, inset -1px -1px 0 #884559cc;
+  
+  background: linear-gradient(135deg, #f007, 60%, #8007);
+  box-shadow: inset 1px 1px 0 #fffa, inset -1px -1px 0 #884559dd;
+}
+
+.layerbox-control .tooltip {
+  visibility: hidden;
+  background-color: #ccfa;
+  color: #fff;
+
+  position: absolute;
+  z-index: 1000;
+  top: 0;
+  right: 0;
+  transform: translateX(-186px);
+  
+  padding: 1px;
+  font-family: "Saitamaar";
+  font-size: 16px;
+  line-height: 18px;
+  
+  white-space: pre;
+}
+
+.layerbox-control:hover .tooltip,
+.layerbox-control:focus .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+#settingsMenu > div {
+  border: 3px outset white;
+  background-color: #dedede;
+  min-height: 100%;
+  max-height: 100%;
+  max-width: 100%;
+  overflow: auto;
+}
+
+#settingsMenu {
+  font-size: 12px;
+}
+
+#settingsMenu fieldset {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+#settingsMenu .form-group {
+  border: 1px outset #b2b2b2;
+  background-color: #efefef;
+  padding: 1px;
+  margin: 2px;
+  font-size: 12px;
+  line-height: 16px;
+  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#settingsMenu .form-group input {
+  border-radius: 0;
+  border: 1px outset #aaa;
+}
+
+#charMenu,
+#brushes,
+#templates {
+  border: 0;
+}
+
+#charMenu > div {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  
+  height: 100%;
+  position: relative;
+}
+
+#templates > div,
+#brushes > div {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+#templates > div > div,
+#brushes > div > div {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  flex-grow: 1;
+  position: relative;
+}
+
+#charPagePicker,
+#brushPagePicker,
+#templatePagePicker {
+  display: flex;
+  flex-direction: column;
+  
+  background-color: #dedede;
+  border: 1px inset #b2b2b2;
+  padding: 2px;
+  min-width: 56px;
+  max-width: 56px;
+  
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+#charPagePicker .pagepicker,
+#brushPagePicker .pagepicker,
+#templatePagePicker .pagepicker {
+  border: 1px outset #b2b2b2;
+  background-color: #efefef;
+  padding: 1px;
+  height: 18px;
+  margin-bottom: 2px;
+  font-family: "MS PGothic";
+  font-size: 14px;
+  line-height: 16px;
+  text-align: left;
+  overflow: clip;
+}
+
+#charPagePicker .activepage,
+#brushPagePicker .activepage,
+#templatePagePicker .activepage {
+  color: red;
+}
+
+#charPagePicker .pagepicker:focus,
+#charMenuPages .insertionbutton:focus,
+#brushPagePicker .pagepicker:focus,
+#brushMenuPages .insertionbutton:focus,
+#templatePagePicker .pagepicker:focus,
+#templateMenuPages .insertionbutton:focus {
+  outline: 1px solid #12f80e66;
+  outline-offset: -2px;
+}
+
+#charMenuPages,
+#brushMenuPages,
+#templateMenuPages {
+  background-color: #efefef;
+  border: 1px inset #b2b2b2;
+  padding: 2px;
+  flex-grow: 1;
+  min-width: 0;
+  /*position: relative;*/
+  max-height: 100%;
+  overflow-x: clip;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+#charMenuPages > div,
+#brushMenuPages > div {
+  grid-template-columns: repeat(4, 30px); /* Looks stupid but stops text from falling on subpixel positions, at least on Firefox. */
+}
+
+#templateMenuPages > div {
+  display: flex;
+  flex-direction: column;
+}
+
+#charMenuPages .insertionbutton,
+#brushMenuPages .insertionbutton,
+#templateMenuPages .insertionbutton {
+  border: 1px outset #b2b2b2;
+  background-color: transparent;
+  
+  font-family: "Saitamaar";
+  font-size: 16px;
+  line-height: 18px;
+  text-align: left;
+  padding: 0;
+  padding-left: 2px;
+  margin-right: -1px;
+  margin-bottom: -1px;
+}
+
+#templateMenuPages .insertionbutton {
+  /*position: relative;*/
+}
+
+#templateBehaviorSelector:has(option[value="copy"]:checked) ~ div > #templateMenuPages .insertionbutton:active:after {
+  content: "Copied";
+  position: absolute;
+  background: yellow;
+  z-index: 1000;
+  top: 0;
+  right: 0;
+}
+
+.insertionbutton > div {
+  white-space: pre;
+  overflow: clip;
+}
+
+.insertionbutton .tooltip {
+  visibility: hidden;
+  background-color: #ccfa;
+  color: #fff;
+
+  position: absolute;
+  z-index: 1000;
+  top: 0;
+  right: calc(100% + 1px);
+  
+  padding: 1px;
+  font-family: "Saitamaar";
+  font-size: 16px;
+  line-height: 18px;
+  
+  white-space: pre;
+}
+#templateMenuPages .insertionbutton .tooltip {
+  right: calc(100% + 4px);
+}
+.insertionbutton:hover .tooltip,
+.insertionbutton:focus .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+#brushSidebar select {
+  border-radius: 0;
+  border: 1px outset #aaa;
+  margin-bottom: 4px;
+  background: #f1f1f1;
+  font: 13px "MS PGothic";
+}
+
+#brushes fieldset {
+  display: flex;
+  flex-direction: row;
+  border: none;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+
+#brushField {
+  font-family: "Saitamaar";
+  font-size: 16px;
+  line-height: 18px;
+  min-width: 0;
+  flex-grow: 1;
+  margin-left: 4px;
+  margin-bottom: 4px
+}
+
+#traceModeMenu {
+  overflow: auto;
+}
+
+#traceModeMenu > div > div {
+  border: 1px outset #b2b2b2;
+  background-color: #efefef;
+  padding: 1px;
+  margin: 2px;
+}
+
+#traceModeMenu fieldset {
+  margin: 0;
+  padding: 0;
+  border: none;
+  min-width: 0;
+}
+
+#traceModeMenu input {
+  min-width: 0;
+  max-width: 100%;
+  font-family: 'MS PGothic';
+}
+
+#traceModeMenu header {
+  text-align: center;
+  color: white;
+  font-weight: bold;
+  background-color: #000033;
+  margin: 2px;
+  font-size: 12px;
+}
+
+#traceModeMenu .form-group {
+  margin: 4px;
+}
+
+#traceModeMenu label {
+  display: inline-block;
+  padding-left: 4px;
+}
+
+#traceModeMenu input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  padding: 0;
+  width: 100%;
+  display: block;
+  height: 4px;
+  border: 1px inset white;
+  background-color: #dedede;
+  margin: auto;
+  margin-top: 6px;
+  margin-bottom: 10px;
+}
+
+#traceModeMenu input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 14px;
+  border: 1px solid #aaa;
+  box-shadow: inset 1px 1px white, inset -1px -1px #aaa;
+  border-radius: 0;
+  background: #efefef;
+  cursor: pointer;
+}
+
+#traceModeMenu input[type="range"]::-moz-range-thumb {
+  appearance: none;
+  width: 12px;
+  height: 14px;
+  border: 1px solid #aaa;
+  box-shadow: inset 1px 1px white, inset -1px -1px #aaa;
+  border-radius: 0;
+  background: #efefef;
+  cursor: pointer;
+}
+
+#traceModeMenu input[type="range"]:focus {
+  outline: none;
+  background: radial-gradient(#12f80e22), #dedede;
+}
+
+#traceModeMenu input[type="range"]:focus::-webkit-slider-thumb {
+  outline: 1px solid #12f80eaa;
+  outline-offset: -2px;
+}
+#traceModeMenu input[type="range"]:focus::-moz-range-thumb {
+  outline: 1px solid #12f80eaa;
+  outline-offset: -2px;
+}
+
+#traceModeMenu input[type="number"],
+#traceModeMenu input[type="color"] {
+  border: 1px solid black;
+  border-radius: 0;
+  line-height: 16px;
+}
+
+#traceModeMenu input[type="checkbox"] {
+  vertical-align: bottom;
+}
+
+#traceModeMenu input[type="number"]:hover,
+#traceModeMenu input[type="number"]:focus,
+#traceModeMenu input[type="checkbox"]:hover,
+#traceModeMenu input[type="checkbox"]:focus,
+#traceModeMenu input[type="color"]:hover,
+#traceModeMenu input[type="color"]:focus,
+#traceModeMenu button:hover,
+#traceModeMenu button:focus,
+input[type="file"]::file-selector-button:hover,
+input[type="file"]::file-selector-button:focus,
+#traceModeMenu input[type="range"]:hover::-webkit-slider-thumb,
+#traceModeMenu input[type="range"]:hover::-moz-range-thumb {
+  /*outline: 1px solid #12f80eaa;*/
+  outline: 1px solid #12f80e66;
+  outline-offset: -2px;
+}
+
+input[type="file"]::file-selector-button,
+#traceModeMenu button {
+  box-sizing: border-box;
+  border: 1px solid black;
+  border-radius: 0;
+  margin-left: 4px
+  background-color: transparent;
+  background: linear-gradient(135deg, #09009f11, 60%, #0004);
+  box-shadow: inset 1px 1px 0 #fff9, inset -1px -1px 0 #59595990, 1px 1px 0 #b2b2b2;
+}
+
+#traceModeMenu button {
+  margin-top: 6px;
+}
+
+#traceModeMenu button + button {
+  margin-left: 4px;
+}
+
+
+
+#inputContainer {
+  --trace-text: #f00;
+  border: 1px solid #a0a0a0;
+  border-right: 1px solid #ffffff;
+  border-bottom: 1px solid #ffffff;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.cm-content {
+  background-image: url("res/vertical.gif"), url("res/horizontal.gif");
+  background-repeat: repeat-y, repeat-x;
+}
+
+/* Force cursor to always be visible */
+.cm-editor .cm-cursorLayer {
+  animation: steps(1) cm-blink 1.2s infinite !important;
+  visibility: visible !important;
+}
+.cm-editor .cm-cursor {
+  display: block !important;
+  visibility: visible !important;
+}
+
+.high-transparency-mode .cm-layerbox textarea[disabled] {
+  -webkit-text-stroke: 10px rgba(113, 162, 173, 0.06);
+  paint-order: stroke;
+  background: rgba(239, 239, 239, 0.43);
+  color: rgb(203, 52, 52);
+}
+
+
+#previewContainer {
+  position: absolute;
+  z-index: 1000000000;
+  background-color: #efefef;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  visibility: hidden;
+  opacity: 0;
+}
+
+#previewContainer.show {
+  visibility: visible;
+  opacity: 100%;
+  pointer-events: auto;
+  overflow: auto;
+}
+
+#previewContainer .aa {
+  font-family: 'Saitamaar', 'MS Pgothic' !important;
+  word-break: keep-all;
+  white-space: nowrap;
+  font-size: 16px;
+  line-height: 18px;
+  color: #000; /* Here to stop trace-mode colors from leaking in */
+}
+
+#previewContainer:after {
+  content: "Preview";
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  color: red;
+  font-size: 20px;
+}
+
+#modalOverlay {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+  visibility: hidden;
+  opacity: 0;
+}
+
+#modalOverlay.show {
+  visibility: visible;
+  opacity: 100%;
+  pointer-events: auto;
+}
+
+#infoBox {
+  background: #CCFFCC;
+  border: 1px outset grey;
+  padding: 7px;
+  margin-inline: 30px;
+}
+
+#infoBox > div {
+  border: 1px inset grey;
+  padding: 6px;
+}
+
+#infoBox .overlay-close {
+  float: right;
+  margin-left: 5px;
+  margin-bottom: 3px;
+  font-weight: bold;
+  color: #dd0000;
+  border: 1px outset #aaa;
+  background-color: #ffffff85;
+}
+
+#infoBox a {
+  white-space: nowrap;
+}
+
+#infoBox .warning {
+  color: red;
+}
+
+.trace-mode .cm-trace-bg {
+  display: block;
+}
+
+#inputContainer.trace-mode {
+  color: var(--trace-text);
+}
+
+.brush-enabled {
+  cursor: url('res/icons/brushMenu.png'), grab !important;
+}
+
+.cm-scroller:focus {
+  outline: none;
+}
+
+/*.cm-selectionBackground {background: red !important;}
+
+/*#scrollbarX {
+  grid-area: scrollbar-x;
+  overflow-x: scroll;
+  border-left: 1px solid #a0a0a0;
+  border-bottom: 1px solid #ffffff;
+}
+#scrollbarY {
+  grid-area: scrollbar-y;
+  overflow-y: scroll;
+  border-top: 1px solid #a0a0a0;
+  border-right: 1px solid #ffffff;
+}
+#scrollbarCorner {
+  grid-area: scroll-corner;
+  border-right: 1px solid #ffffff;
+  border-bottom: 1px solid #ffffff;
+}
+
+#inputContainer {
+  grid-area: editor;
+  display: grid;
+  transform: translateZ(0);
+  -webkit-text-size-adjust: none;
+  
+  /*border: 2px inset #b2b2b2;*/
+  /*overflow: hidden;
+  border: 1px solid black;
+  border: 1px solid #a0a0a0;
+  border-right: 1px solid #ffffff;
+  border-bottom: 1px solid #ffffff;
+  border-radius: 0;
+  scrollbar-color: #cdcdcd #f0f0f0;
+
+  /* It would have been nice if scroll snapping worked here, */
+  /* but alas, for browser compatibility reasons I had to do it in JS */
+  /*scroll-behavior: smooth;
+  scroll-snap-type: mandatory;*/
+  /*scroll-snap-type: y mandatory;
+  scroll-snap-stop: always;*/
+}
+
+
+/*#layerboxes {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+#backdrop, #input, #layerboxes {
+  border: none;
+}
+
+#input, #backdrop {
+  display: block;
+  margin: 0;
+  padding: 0;
+  grid-area: 1 / 1 / 1 / 1;
+  
+  padding: 0px;
+  font-family: "Saitamaar";
+  font-size: 16px;
+  line-height: 18px;
+}
+
+#input {
+  z-index: 2;
+  color: #444;
+  background-color: transparent;
+  resize: none;
+  /*-webkit-text-fill-color: transparent;*/
+  /*color: black;
+  background-image: url("vertical.gif"), url("horizontal.gif");
+  background-repeat: repeat-y, repeat-x;
+  white-space: pre;
+}
+
+/*#backdrop {
+  z-index: 1;
+  background-color: #EFEFEF;
+  pointer-events: none;  
+}
+
+/*#highlights {
+  /* Suppress subpixel coloring. */
+	/*background-image: linear-gradient(45deg, #09009f, #000 80%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;*/
+  /*color: black;*/
+  /*color: transparent;
+  /*background-image: url("vertical_b.gif"), url("horizontal_b.gif");
+  background-repeat: repeat-y, repeat-x;*/
+/*}
+
+
+
+#input:read-only {
+  background-color: #89cc7333;
+}
+
+.hl_line {
+  margin: 0px;
+  padding: 0px;
+  white-space: pre;
+  /*scroll-snap-align: start;*/
+/*}
+
+.hl_line:after {
+  content: "↓";
+  color: #04c1c1; /* OrinrinEditor color */
+  /*color: #008080; /* GikoEdit color */
+/*}
+
+.hl_line:last-of-type:after {
+  content: "[EOF]";
+}
+
+.sp {
+  background-color: transparent;*/
+  /*border-bottom: 1px solid #aaa;*/
+/*  box-shadow: 0px 2px 0.1px -1px #aaa;
+}
+
+.bad {
+  background-color: #ff000055;
+}
+
+.unisp {
+  background-color: #ccf;
+}*/
+
+
+/*textarea {
+  min-height: 100px;
+  min-width: 30%;
+  white-space: pre;
+  overflow-wrap: normal;
+  overflow-x: auto;
+  
+  /* Suppress subpixel coloring. */
+  /* Doesn't work well with textarea but I'm leaving it here as reference. Totally fucks up scrolling. */
+  /*background: linear-gradient(#000, #000);
+  background-clip: text;
+  text-fill-color: transparent;*/
+  /*background: -webkit-linear-gradient(45deg, #09009f, #00ff95 80%);*/
+  /*background: -webkit-linear-gradient(45deg, #09009f, #000 80%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}*/
+
+/*#layerboxes {
+  position: absolute;
+}*/
