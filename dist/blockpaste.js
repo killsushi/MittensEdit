@@ -273,7 +273,7 @@ const previewDecorationField = StateField.define({
           }).range(from, to));
           
         } else if (from === doc.length && doc.length != 0 && doc.line(doc.lines).length != 0) {
-          // Appending at EOF (when EOF is not an empty line, in which case it needs to be hidden).
+          // Appending at EOF (when EOF is not an empty line, in that case it needs to be hidden).
           
           // Codemirror appends an extra newline to block widgets below EOF to force them down.
           // I remove that to stop the preview from being too low by a line.
