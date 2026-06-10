@@ -101,20 +101,23 @@ function rectangleInsert(state, foreground, line, offset) {
     //  : "";
     let curlinetext;
     let linestart;
+    let insertion;
     if(i + line <= state.doc.lines) {
       const curline = state.doc.line(i + line);
       curlinetext = curline.text;
       linestart = curline.from;
+      insertion = insertAtOffset(curlinetext, fglines[i], offset);
     } else {
       curlinetext = "";
       linestart = state.doc.length;
+      insertion = insertAtOffset(curlinetext, fglines[i], offset);
+      insertion.insert = '\n' + insertion.insert;
     }
     
-    const insertion = insertAtOffset(curlinetext, fglines[i], offset);
     changes.push({
       from: linestart + insertion.index,
       to: linestart + insertion.index,
-      insert: linestart === state.doc.length ? "\n" + insertion.insert : insertion.insert
+      insert: insertion.insert
     });
   }
   
@@ -269,8 +272,8 @@ const previewDecorationField = StateField.define({
             block: true
           }).range(from, to));
           
-        } else if (from === doc.length && doc.length != 0) {
-          // Appending at EOF.
+        } else if (from === doc.length && doc.length != 0 && doc.line(doc.lines).length != 0) {
+          // Appending at EOF (when EOF is not an empty line, in which case it needs to be hidden).
           
           // Codemirror appends an extra newline to block widgets below EOF to force them down.
           // I remove that to stop the preview from being too low by a line.
@@ -282,9 +285,9 @@ const previewDecorationField = StateField.define({
           }).range(from));
           
         } else {
-          // Replacing a single empty line mid-document. Also runs if the document is empty.
-          // A length-0 replacement acts as a widget insertion, which normally leaves
-          // the empty cm-line intact. We fix this by hiding the target empty line.
+          // Replacing a single empty line mid-document or at document end. Also runs if the document is empty.
+          // A length-0 replacement acts as a widget insertion, which normally leaves the empty cm-line intact.
+          // We fix this by hiding the target empty line.
           decosToSet.push(Decoration.widget({
             widget: new PastePreviewWidget(displayString),
             block: true,

@@ -32,7 +32,7 @@ const notspacesornewlines = /[^\u200A\u2009\u2006\u2005\u2004\u0020\u2002\u2007\
 // UPDATE: I added Math.round to it because it was returning non-integer values on Linux
 // I now need to test if Math.round ever adds an extra pixel from rounding up, or if I need to use Math.floor instead.
 // (Further testing shows that it does not return extra pixels.)
-function measureLine(txt) {
+/*function measureLine(txt) {
   if (measureLine.c === undefined) {
     measureLine.c = document.createElement("canvas");
     measureLine.ctx = measureLine.c.getContext("2d");
@@ -40,9 +40,175 @@ function measureLine(txt) {
   }
   if (txt == null) return 0;
   return Math.round(measureLine.ctx.measureText(txt).width);
-  //if (txt == null) return 0;
-  //return Math.round(ctx.measureText(txt).width);
+}*/
+
+
+/*function measureLine(text) {
+  if (measureLine.c === undefined) {
+    measureLine.c = document.createElement("canvas");
+    measureLine.ctx = measureLine.c.getContext("2d");
+    measureLine.ctx.font = "16px Saitamaar";
+  }
+  if (text === null) return 0;
+  let totalwidth = 0;
+  
+  for (const char of text) {
+      if (!charCache.has(char)) {
+          // Measure once and cache it forever
+          let width = Math.round(measureLine.ctx.measureText(char).width);
+          charCache.set(char, width);
+      }
+      totalwidth += charCache.get(char);
+  }
+  
+  return totalwidth;
+}*/
+
+const charCache = new Map();
+
+/**
+ * Takes a string and returns its length in pixels in an AA font.
+ * @param {string} str - The string to measure.
+ * @returns {number} The length in pixels.
+ */
+function measureLine(text) {
+  if (measureLine.c === undefined) {
+    measureLine.c = document.createElement("canvas");
+    measureLine.c.height = '300px';
+    measureLine.c.width = '4000px';
+    measureLine.ctx = measureLine.c.getContext("2d");
+    measureLine.ctx.font = "16px Saitamaar";
+  }
+  if (text === null) return 0;
+  
+  // There are a few crappy functions that pass arrays resulting from regex matches into here instead of text
+  // Should all be fixed now though. Probably.
+  if (Array.isArray(text)) { console.log("DID A FUCKY"); text = text[0]; }
+  
+  let totalwidth = 0;
+  
+  for (const char of text) {
+    if (!charCache.has(char)) {
+      // Measure each char individually and cache it forever
+      let width = Math.round(measureLine.ctx.measureText(char).width / 1);
+      charCache.set(char, width);
+    }
+    totalwidth += charCache.get(char);
+  }
+
+  return totalwidth;
 }
+
+
+/**
+ * Finds the character index closest to a given pixel offset using a binary search.
+ * I should probably modify compositeAALine to use this instead of having two slightly different
+ * binary searches baked into it.
+ * @param {string} str - The string to measure.
+ * @param {number} offset - The target pixel offset.
+ * @param {number} roundMode - 0: nearest boundary, -1: strict previous, 1: strict next.
+ * @returns {number} The character index boundary.
+ */
+function indexClosestToPxOffset(str, offset, roundMode = 0) {
+  const chars = [...str];
+  
+  // If offset overshoots the whole string, return the end.
+  if (offset >= measureLine(str)) {
+    return chars.length;
+  }
+  
+  let low = 0;
+  let high = chars.length;
+  let leftBoundary = 0;
+  
+  // Binary search to find the closest boundary to the left of the offset
+  while (low <= high) {
+    let mid = Math.floor((low + high) / 2);
+    let curWidth = measureLine(chars.slice(0, mid).join(""));
+    
+    if (curWidth <= offset) {
+      leftBoundary = mid;
+      low = mid + 1;   // Push right to see if we can get closer without overshooting
+    } else {
+      high = mid - 1;  // Too wide, push left
+    }
+  }
+  
+  let rightBoundary = leftBoundary + 1;
+  
+  let leftWidth = measureLine(chars.slice(0, leftBoundary).join(""));
+  let rightWidth = measureLine(chars.slice(0, rightBoundary).join(""));
+      
+  if (leftWidth === offset) {
+    return leftBoundary; // We landed exactly on a character boundary
+  }
+  
+  if (roundMode < 0) {
+    return leftBoundary;
+  } else if (roundMode > 0) {
+    return rightBoundary;
+  } else {
+    // Round to nearest, compare the absolute distances
+    let leftDist = offset - leftWidth;
+    let rightDist = rightWidth - offset;
+    
+    return (leftDist <= rightDist) ? leftBoundary : rightBoundary;
+  }
+}
+
+// I assumed that not calling measureLine over and over again and instead doing what measureLine
+// itself does and iterating over the string by chars and accumulating the length right in here
+// would be faster, but somehow the original performed (visually) faster (no real benchmarking done).
+// Too busy to think about this. Probably doing something really stupid. Kind of in a rush.
+/*function indexClosestToPxOffset(str, offset, roundMode = 0) {
+  if (indexClosestToPxOffset.c === undefined) {
+    indexClosestToPxOffset.c = document.createElement("canvas");
+    indexClosestToPxOffset.c.height = '300px';
+    indexClosestToPxOffset.c.width = '4000px';
+    indexClosestToPxOffset.ctx = indexClosestToPxOffset.c.getContext("2d");
+    indexClosestToPxOffset.ctx.font = "16px Saitamaar";
+  }
+  const chars = [...str];
+    
+  let rightBoundary = 0;
+  let leftBoundary = 0;
+  let rightwidth = 0;
+  let leftwidth = 0;
+  
+  for (const char of chars) {
+    if (rightwidth >= offset) break;
+    
+    if (!charCache.has(char)) {
+    // Measure each char individually and cache it forever
+      let width = Math.round(indexClosestToPxOffset.ctx.measureText(char).width / 1);
+      charCache.set(char, width);
+    }
+    
+    leftwidth = rightwidth;
+    leftBoundary = rightBoundary;
+    rightwidth += charCache.get(char);
+    rightBoundary++;
+    
+    console.log('left' + leftwidth + ' ' + leftBoundary);
+    console.log('right' + rightwidth + ' ' + rightBoundary);
+  }
+  
+  if (rightwidth === offset) {
+      return rightBoundary; // We landed exactly on a character boundary
+  }
+  
+  if (roundMode < 0) {
+    return leftBoundary;
+  } else if (roundMode > 0) {
+    return rightBoundary;
+  } else {
+    // Round to nearest, compare the absolute distances
+    let leftDist = offset - leftwidth;
+    let rightDist = rightwidth - offset;
+    
+    return (leftDist <= rightDist) ? leftBoundary : rightBoundary;
+  }
+}*/
 
 // TO DO: Go through all the OrinrinEditor space generation functions and give them descriptive names and variable names.
 
@@ -414,63 +580,6 @@ function generateSpacingWithPeriods(px) {
 }
 
 
-/**
- * Finds the character index closest to a given pixel offset using a binary search.
- * I should probably modify compositeAALine to use this instead of having two slightly different
- * binary searches baked into it.
- * @param {string} str - The string to measure.
- * @param {number} offset - The target pixel offset.
- * @param {number} roundMode - 0: nearest boundary, -1: strict previous, 1: strict next.
- * @returns {number} The character index boundary.
- */
-function indexClosestToPxOffset(str, offset, roundMode = 0) {
-  const chars = [...str]; 
-  
-  // If offset overshoots the whole string, return the end.
-  if (offset >= measureLine(str)) {
-    return chars.length; 
-  }
-  
-  let low = 0;
-  let high = chars.length;
-  let leftBoundary = 0;
-  
-  // Binary search to find the closest boundary to the left of the offset
-  while (low <= high) {
-    let mid = Math.floor((low + high) / 2);
-    let curWidth = measureLine(chars.slice(0, mid).join(""));
-    
-    if (curWidth <= offset) {
-      leftBoundary = mid;
-      low = mid + 1;   // Push right to see if we can get closer without overshooting
-    } else {
-      high = mid - 1;  // Too wide, push left
-    }
-  }
-  
-  let rightBoundary = leftBoundary + 1;
-  
-  let leftWidth = measureLine(chars.slice(0, leftBoundary).join(""));
-  let rightWidth = measureLine(chars.slice(0, rightBoundary).join(""));
-      
-  if (leftWidth === offset) {
-      return leftBoundary; // We landed exactly on a character boundary
-  }
-  
-  if (roundMode < 0) {
-      return leftBoundary;
-  } else if (roundMode > 0) {
-      return rightBoundary;
-  } else {
-      // Round to nearest, compare the absolute distances
-      let leftDist = offset - leftWidth;      // offset is larger, so this is positive
-      let rightDist = rightWidth - offset;    // rightWidth is larger, so this is positive
-      
-      return (leftDist <= rightDist) ? leftBoundary : rightBoundary;
-  }
-}
-
-
 // Pastes one line atop another.
 // Yes, I am aware that this is unreadably hideous and that there's three different search algorithms inside it.
 // No, I currently have no plans of cleaning it up.
@@ -489,7 +598,7 @@ function compositeAALine(str, paste, offset) {
   let newstr = "";
 
   paste = paste.replace(spaceatend, "");
-  additionaloffset = measureLine(paste.match(spaceatstart));
+  additionaloffset = measureLine(paste.match(spaceatstart) != null ? paste.match(spaceatstart)[0] : "");
   paste = paste.replace(spaceatstart, "");
   var pastewidth = measureLine(paste);
 
@@ -550,7 +659,7 @@ function compositeAALine(str, paste, offset) {
   prepaste =
     tmp.replace(spaceatend, "")
     + generateSpacingWithPeriods(
-        measureLine(tmp.match(spaceatend))
+        measureLine(tmp.match(spaceatend) != null ? tmp.match(spaceatend)[0] : "")
         + (offset - measureLine(tmp))
     );
 
@@ -573,7 +682,7 @@ function compositeAALine(str, paste, offset) {
   tmp = [...str].slice(firstindexoverpaste).join("");
   postpaste =
     generateSpacingWithPeriods(
-      measureLine(tmp.match(spaceatstart))
+      measureLine(tmp.match(spaceatstart) != null ? tmp.match(spaceatstart)[0] : "")
       + (
         measureLine([...str].slice(0, firstindexoverpaste).join(""))
         - (offset + pastewidth)
@@ -627,10 +736,12 @@ function insertAtOffset(str, paste, offset) {
   const insertionpoint = indexClosestToPxOffset(str, offset, -1);
   const strbelowindex = str.slice(0, insertionpoint);
   
-  const additionaloffset = measureLine(paste.match(spaceatstart));
-  paste = paste.replace(spaceatstart, "");
+  let additionaloffset = 0;
+  if (paste.match(spaceatstart) != null) {
+    additionaloffset = measureLine(paste.match(spaceatstart)[0]);
+    paste = paste.replace(spaceatstart, "");
+  }
 
-  //const padding = measureLine(strbelowindex) != offset ? generateSpacingWithPeriods(offset - measureLine(strbelowindex)) : "";
   const padding = generateSpacingWithPeriods(offset + additionaloffset - measureLine(strbelowindex));
   
   return {

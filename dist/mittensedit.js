@@ -823,7 +823,7 @@ const keyboardShortcuts = keymap.of([
   {key: "Ctrl-Shift-e", run: setAutoAdjustWidth},
   {key: "Ctrl-e", run: executeAutoAdjust},
   {key: "Shift-Enter", run: shiftCursorsDown},
-  //{key: "Ctrl-u", run: (view) => {return true;}}, // Ctrl-u is by default undo. I want it to do nothing so that the document-level EventListener for toggling unicode-mode will handle it
+  {key: "Alt-u", run: (view) => {return true;}}, // Alt-u is by default redo. I want it to do nothing so that the document-level EventListener for toggling unicode-mode will handle it.
   {key: "Ctrl-Shift-z", run: redo, preventDefault: true},
   {key: "Ctrl-Shift-ArrowRight", run: incrementByOnePx},
   {key: "Ctrl-Shift-ArrowLeft", run: decrementByOnePx},
