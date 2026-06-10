@@ -30,9 +30,9 @@ function prependInitialSpaces(view) {
 function removeInitialSpaces(view) {
   doToAllOrSelected(view, (state, line) => {
     const match = spaceatstart.exec(line.text);
-    const newspace = generateSpacing(measureLine(match) - 11);
-
+    
     if (match && match[0].length > 0) {
+      const newspace = generateSpacing(measureLine(match[0]) - 11);
       return ({
         from: line.from,
         to: line.from + match[0].length,
@@ -47,12 +47,15 @@ function removeInitialSpaces(view) {
 function incrementByOnePx(view) {
   doToAllOrSelected(view, (state, line) => {
     const match = spaceatstart.exec(line.text);
-    const newspace = generateSpacing(measureLine(match) + 1);
+    let extrapadding = 0;
     let leftoffset = 0;
 
     if (match && match[0].length > 0) {
       leftoffset = match[0].length;
+      extrapadding = measureLine(match[0]);
     }
+    
+    const newspace = generateSpacing(extrapadding + 1);
 
     return ({
         from: line.from,
@@ -71,7 +74,7 @@ function decrementByOnePx(view) {
 
     if (match && match[0].length > 0) {
       leftoffset = match[0].length;
-      newspace = generateSpacing(measureLine(match) - 1);
+      newspace = generateSpacing(measureLine(match[0]) - 1);
     }
     else {
       if ([...line.text][0] == undefined) return false;
@@ -166,12 +169,15 @@ function alignToRight(view) {
   doToAllOrSelected(view, (state, line) => {
     const match = spaceatstart.exec(line.text);
     let rightoffset = 0;
-    const newspace = useUnicodeSp ? generateSpacing(measureLine(match) + rightpadding)
-                                  : DocPaddingSpaceWithPeriod(measureLine(match) + rightpadding);
-
+    let extrapadding = 0;
+    
     if (match && match[0].length > 0) {
       rightoffset = match[0].length;
+      extrapadding = measureLine(match[0]);
     }
+    
+    const newspace = useUnicodeSp ? generateSpacing(extrapadding + rightpadding)
+                                  : DocPaddingSpaceWithPeriod(extrapadding + rightpadding);
 
     return ({
         from: line.from,
